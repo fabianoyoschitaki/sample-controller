@@ -36,6 +36,7 @@ type Job struct {
 type JobSpec struct {
 	DeploymentName string `json:"deploymentName"`
 	Replicas       *int32 `json:"replicas"`
+	ImageToDeploy  string `json:"imageToDeploy"`
 }
 
 // JobStatus is the status for a Job resource

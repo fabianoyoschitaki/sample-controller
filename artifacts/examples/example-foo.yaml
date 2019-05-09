@@ -7,3 +7,4 @@ spec:
   # name of the deployment
   deploymentName: example-job-spec-deployment-name
   replicas: 1
+  imageToDeploy: nginx:latest

@@ -405,6 +405,8 @@ func newDeployment(job *samplev1alpha1.Job) *appsv1.Deployment {
 		"app":        "nginx",
 		"controller": job.Name,
 	}
+
+	fmt.Println("[controller.go] newDeployment: job.Spec.ImageToDeploy is " + job.Spec.ImageToDeploy)
 	fmt.Println("[controller.go] newDeployment: end")
 	return &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
@@ -426,8 +428,10 @@ func newDeployment(job *samplev1alpha1.Job) *appsv1.Deployment {
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name:  "nginx",
-							Image: "nginx:latest",
+							Name: "busybox-mano",
+							// Name: strings.Split(job.Spec.ImageToDeploy, ":")[0],
+							//Image: "nginx:latest",
+							Image: job.Spec.ImageToDeploy,
 						},
 					},
 				},
