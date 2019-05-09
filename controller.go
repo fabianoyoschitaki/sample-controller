@@ -335,12 +335,16 @@ func (c *Controller) updateJobStatus(job *samplev1alpha1.Job, deployment *appsv1
 // string which is then put onto the work queue. This method should *not* be
 // passed resources of any type other than Job.
 func (c *Controller) enqueueJob(obj interface{}) {
+	fmt.Println("[controller.go] enqueueJob: start")
 	var key string
 	var err error
 	if key, err = cache.MetaNamespaceKeyFunc(obj); err != nil {
+		fmt.Println("[controller.go] enqueueJob: entered if.")
 		utilruntime.HandleError(err)
 		return
 	}
+	fmt.Println("[controller.go] enqueueJob: key value: " + key)
+	fmt.Println("[controller.go] enqueueJob: end")
 	c.workqueue.Add(key)
 }
 
@@ -374,6 +378,7 @@ func (c *Controller) handleObject(obj interface{}) {
 	if ownerRef := metav1.GetControllerOf(object); ownerRef != nil {
 		// If this object is not owned by a Job, we should not do anything more
 		// with it.
+		fmt.Printf("[controller.go] handleObject: ownerRef.Kind: %s\n", ownerRef.Kind)
 		if ownerRef.Kind != "Job" {
 			return
 		}
