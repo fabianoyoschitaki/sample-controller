@@ -1,0 +1,15 @@
+[To change the package (change samplecontroller.k8s.io)]
+	- Change the CRD definition (crd.yaml)
+		metadata.name = foos.{your.package}
+		spec.group = {your.package}
+
+	
+	- Change the Deployment definition (example-foo.yaml):
+		apiVersion: {your.package}/v1alpha1
+
+	- Change pkg/apis/samplecontroller/register.go:
+		GroupName = "{your.package}"
+
+------------------------------------------------------------------
+
+[To change the kind (change Foo)]

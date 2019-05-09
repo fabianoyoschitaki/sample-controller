@@ -17,5 +17,5 @@ limitations under the License.
 package samplecontroller
 
 const (
-	GroupName = "samplecontroller.k8s.io"
+	GroupName = "fabianoyoschitaki.io"
 )
