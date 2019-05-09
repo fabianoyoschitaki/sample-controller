@@ -3,7 +3,6 @@
 		metadata.name = foos.{your.package}
 		spec.group = {your.package}
 
-	
 	- Change the Deployment definition (example-foo.yaml):
 		apiVersion: {your.package}/v1alpha1
 
@@ -13,3 +12,23 @@
 ------------------------------------------------------------------
 
 [To change the kind (change Foo)]
+	- Change the CRD definition (crd.yaml)
+		metadata.name = {yourKindPlural}.your.package
+		spec.names.kind = {yourKind}
+		spec.names.plural = {yourKindPlural}
+		
+	- Change the Deployment definition (example-foo.yaml):
+		Kind = {yourKind}
+		metadata.name = example-{yourKind}
+		spec.deploymentName = example-{yourKind}
+
+	- Change all the Structs related to Foo at types.go
+	- Run the update-codegen.sh and make sure generated was updated as well as zz_generated.deepcopy.go
+	- Change controller.go
+	- Change main.go
+	
+	go build -o sample-controller .
+	./sample-controller -kubeconfig=$HOME/.kube/config
+	kubectl create -f artifacts/examples/crd.yaml
+	kubectl create -f artifacts/examples/example-foo.yaml
+	kubectl get jobs.fabianoyoschitaki.io

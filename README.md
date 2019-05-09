@@ -133,7 +133,7 @@ kubectl create -f artifacts/examples/crd-status-subresource.yaml
 
 You can clean up the created CustomResourceDefinition with:
 
-    kubectl delete crd foos.samplecontroller.k8s.io
+    kubectl delete crd jobs.samplecontroller.k8s.io
 
 ## Compatibility
 

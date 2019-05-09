@@ -1,7 +1,7 @@
 apiVersion: fabianoyoschitaki.io/v1alpha1
-kind: Foo
+kind: Job
 metadata:
-  name: example-foo
+  name: example-job
 spec:
-  deploymentName: example-foo
+  deploymentName: example-job
   replicas: 1
