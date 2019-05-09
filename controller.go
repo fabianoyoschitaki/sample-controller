@@ -350,21 +350,26 @@ func (c *Controller) enqueueJob(obj interface{}) {
 // It then enqueues that Job resource to be processed. If the object does not
 // have an appropriate OwnerReference, it will simply be skipped.
 func (c *Controller) handleObject(obj interface{}) {
+	fmt.Println("[controller.go] handleObject start")
 	var object metav1.Object
 	var ok bool
 	if object, ok = obj.(metav1.Object); !ok {
 		tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
 		if !ok {
+			fmt.Errorf("[controller.go] handleObject: error decoding object, invalid type")
 			utilruntime.HandleError(fmt.Errorf("error decoding object, invalid type"))
 			return
 		}
 		object, ok = tombstone.Obj.(metav1.Object)
 		if !ok {
+			fmt.Errorf("[controller.go] handleObject: error decoding object tombstone, invalid type")
 			utilruntime.HandleError(fmt.Errorf("error decoding object tombstone, invalid type"))
 			return
 		}
+		fmt.Printf("[controller.go] handleObject: Recovered deleted object '%s' from tombstone\n", object.GetName())
 		klog.V(4).Infof("Recovered deleted object '%s' from tombstone", object.GetName())
 	}
+	fmt.Printf("[controller.go] handleObject: Processing object: %s\n", object.GetName())
 	klog.V(4).Infof("Processing object: %s", object.GetName())
 	if ownerRef := metav1.GetControllerOf(object); ownerRef != nil {
 		// If this object is not owned by a Job, we should not do anything more
@@ -375,6 +380,7 @@ func (c *Controller) handleObject(obj interface{}) {
 
 		job, err := c.jobsLister.Jobs(object.GetNamespace()).Get(ownerRef.Name)
 		if err != nil {
+			fmt.Printf("[controller.go] handleObject: ignoring orphaned object '%s' of job '%s'\n", object.GetSelfLink(), ownerRef.Name)
 			klog.V(4).Infof("ignoring orphaned object '%s' of job '%s'", object.GetSelfLink(), ownerRef.Name)
 			return
 		}
@@ -382,16 +388,19 @@ func (c *Controller) handleObject(obj interface{}) {
 		c.enqueueJob(job)
 		return
 	}
+	fmt.Println("[controller.go] handleObject: end")
 }
 
 // newDeployment creates a new Deployment for a Job resource. It also sets
 // the appropriate OwnerReferences on the resource so handleObject can discover
 // the Job resource that 'owns' it.
 func newDeployment(job *samplev1alpha1.Job) *appsv1.Deployment {
+	fmt.Println("[controller.go] newDeployment: start: " + job.GetName() + "-" + job.GetNamespace())
 	labels := map[string]string{
 		"app":        "nginx",
 		"controller": job.Name,
 	}
+	fmt.Println("[controller.go] newDeployment: end")
 	return &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      job.Spec.DeploymentName,
