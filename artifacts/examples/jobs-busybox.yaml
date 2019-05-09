@@ -2,9 +2,9 @@ apiVersion: fabianoyoschitaki.io/v1alpha1
 kind: Job
 metadata:
   # name of jobs.fabianoyoschitaki.io
-  name: example-job-metadata-name
+  name: example-job-metadata-busybox
 spec:
   # name of the deployment
-  deploymentName: example-job-spec-deployment-name
+  deploymentName: example-job-spec-deployment-busybox
   replicas: 1
-  imageToDeploy: nginx:latest
+  imageToDeploy: busybox

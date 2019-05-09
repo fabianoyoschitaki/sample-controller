@@ -18,6 +18,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	appsv1 "k8s.io/api/apps/v1"
@@ -428,8 +429,8 @@ func newDeployment(job *samplev1alpha1.Job) *appsv1.Deployment {
 				Spec: corev1.PodSpec{
 					Containers: []corev1.Container{
 						{
-							Name: "busybox-mano",
-							// Name: strings.Split(job.Spec.ImageToDeploy, ":")[0],
+							//Name:  "nginx",
+							Name: strings.Split(job.Spec.ImageToDeploy, ":")[0],
 							//Image: "nginx:latest",
 							Image: job.Spec.ImageToDeploy,
 						},

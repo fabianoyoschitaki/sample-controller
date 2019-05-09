@@ -1,0 +1,10 @@
+apiVersion: fabianoyoschitaki.io/v1alpha1
+kind: Job
+metadata:
+  # name of jobs.fabianoyoschitaki.io
+  name: example-job-metadata-nginx
+spec:
+  # name of the deployment
+  deploymentName: example-job-spec-deployment-nginx
+  replicas: 1
+  imageToDeploy: nginx:latest
