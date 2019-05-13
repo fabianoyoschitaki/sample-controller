@@ -178,13 +178,17 @@ func (c *Controller) Run(threadiness int, stopCh <-chan struct{}) error {
 // processNextWorkItem function in order to read and process a message on the
 // workqueue.
 func (c *Controller) runWorker() {
+	fmt.Println("[controller.go] runWorker start")
 	for c.processNextWorkItem() {
+		fmt.Println("[controller.go] runWorker for loop")
 	}
+	fmt.Println("[controller.go] runWorker end")
 }
 
 // processNextWorkItem will read a single work item off the workqueue and
 // attempt to process it, by calling the syncHandler.
 func (c *Controller) processNextWorkItem() bool {
+	fmt.Println("[controller.go] processNextWorkItem start")
 	obj, shutdown := c.workqueue.Get()
 
 	if shutdown {
@@ -233,7 +237,7 @@ func (c *Controller) processNextWorkItem() bool {
 		utilruntime.HandleError(err)
 		return true
 	}
-
+	fmt.Println("[controller.go] processNextWorkItem end")
 	return true
 }
 
