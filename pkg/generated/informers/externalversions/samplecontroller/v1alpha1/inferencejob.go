@@ -31,59 +31,59 @@ import (
 	v1alpha1 "k8s.io/sample-controller/pkg/generated/listers/samplecontroller/v1alpha1"
 )
 
-// JobInformer provides access to a shared informer and lister for
-// Jobs.
-type JobInformer interface {
+// InferenceJobInformer provides access to a shared informer and lister for
+// InferenceJobs.
+type InferenceJobInformer interface {
 	Informer() cache.SharedIndexInformer
-	Lister() v1alpha1.JobLister
+	Lister() v1alpha1.InferenceJobLister
 }
 
-type jobInformer struct {
+type inferenceJobInformer struct {
 	factory          internalinterfaces.SharedInformerFactory
 	tweakListOptions internalinterfaces.TweakListOptionsFunc
 	namespace        string
 }
 
-// NewJobInformer constructs a new informer for Job type.
+// NewInferenceJobInformer constructs a new informer for InferenceJob type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
-	return NewFilteredJobInformer(client, namespace, resyncPeriod, indexers, nil)
+func NewInferenceJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers) cache.SharedIndexInformer {
+	return NewFilteredInferenceJobInformer(client, namespace, resyncPeriod, indexers, nil)
 }
 
-// NewFilteredJobInformer constructs a new informer for Job type.
+// NewFilteredInferenceJobInformer constructs a new informer for InferenceJob type.
 // Always prefer using an informer factory to get a shared informer instead of getting an independent
 // one. This reduces memory footprint and number of connections to the server.
-func NewFilteredJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
+func NewFilteredInferenceJobInformer(client versioned.Interface, namespace string, resyncPeriod time.Duration, indexers cache.Indexers, tweakListOptions internalinterfaces.TweakListOptionsFunc) cache.SharedIndexInformer {
 	return cache.NewSharedIndexInformer(
 		&cache.ListWatch{
 			ListFunc: func(options v1.ListOptions) (runtime.Object, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.SamplecontrollerV1alpha1().Jobs(namespace).List(options)
+				return client.SamplecontrollerV1alpha1().InferenceJobs(namespace).List(options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.SamplecontrollerV1alpha1().Jobs(namespace).Watch(options)
+				return client.SamplecontrollerV1alpha1().InferenceJobs(namespace).Watch(options)
 			},
 		},
-		&samplecontrollerv1alpha1.Job{},
+		&samplecontrollerv1alpha1.InferenceJob{},
 		resyncPeriod,
 		indexers,
 	)
 }
 
-func (f *jobInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
-	return NewFilteredJobInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
+func (f *inferenceJobInformer) defaultInformer(client versioned.Interface, resyncPeriod time.Duration) cache.SharedIndexInformer {
+	return NewFilteredInferenceJobInformer(client, f.namespace, resyncPeriod, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc}, f.tweakListOptions)
 }
 
-func (f *jobInformer) Informer() cache.SharedIndexInformer {
-	return f.factory.InformerFor(&samplecontrollerv1alpha1.Job{}, f.defaultInformer)
+func (f *inferenceJobInformer) Informer() cache.SharedIndexInformer {
+	return f.factory.InformerFor(&samplecontrollerv1alpha1.InferenceJob{}, f.defaultInformer)
 }
 
-func (f *jobInformer) Lister() v1alpha1.JobLister {
-	return v1alpha1.NewJobLister(f.Informer().GetIndexer())
+func (f *inferenceJobInformer) Lister() v1alpha1.InferenceJobLister {
+	return v1alpha1.NewInferenceJobLister(f.Informer().GetIndexer())
 }

@@ -1,10 +1,10 @@
 apiVersion: fabianoyoschitaki.io/v1alpha1
-kind: Job
+kind: InferenceJob
 metadata:
   # name of jobs.fabianoyoschitaki.io
-  name: example-job-metadata-nginx
+  name: example-inferencejob-metadata-nginx
 spec:
   # name of the deployment
-  deploymentName: example-job-spec-deployment-nginx
+  deploymentName: example-inferencejob-spec-deployment-nginx
   replicas: 1
   imageToDeploy: nginx:latest

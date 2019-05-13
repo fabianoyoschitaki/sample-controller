@@ -26,7 +26,7 @@ import (
 
 type SamplecontrollerV1alpha1Interface interface {
 	RESTClient() rest.Interface
-	JobsGetter
+	InferenceJobsGetter
 }
 
 // SamplecontrollerV1alpha1Client is used to interact with features provided by the samplecontroller.k8s.io group.
@@ -34,8 +34,8 @@ type SamplecontrollerV1alpha1Client struct {
 	restClient rest.Interface
 }
 
-func (c *SamplecontrollerV1alpha1Client) Jobs(namespace string) JobInterface {
-	return newJobs(c, namespace)
+func (c *SamplecontrollerV1alpha1Client) InferenceJobs(namespace string) InferenceJobInterface {
+	return newInferenceJobs(c, namespace)
 }
 
 // NewForConfig creates a new SamplecontrollerV1alpha1Client for the given config.

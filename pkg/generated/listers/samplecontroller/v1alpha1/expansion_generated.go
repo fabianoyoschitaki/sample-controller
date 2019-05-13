@@ -18,10 +18,10 @@ limitations under the License.
 
 package v1alpha1
 
-// JobListerExpansion allows custom methods to be added to
-// JobLister.
-type JobListerExpansion interface{}
+// InferenceJobListerExpansion allows custom methods to be added to
+// InferenceJobLister.
+type InferenceJobListerExpansion interface{}
 
-// JobNamespaceListerExpansion allows custom methods to be added to
-// JobNamespaceLister.
-type JobNamespaceListerExpansion interface{}
+// InferenceJobNamespaceListerExpansion allows custom methods to be added to
+// InferenceJobNamespaceLister.
+type InferenceJobNamespaceListerExpansion interface{}

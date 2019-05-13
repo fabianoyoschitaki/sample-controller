@@ -23,33 +23,33 @@ import (
 // +genclient
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// Job is a specification for a Job resource
-type Job struct {
+// InferenceJob is a specification for a InferenceJob resource
+type InferenceJob struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   JobSpec   `json:"spec"`
-	Status JobStatus `json:"status"`
+	Spec   InferenceJobSpec   `json:"spec"`
+	Status InferenceJobStatus `json:"status"`
 }
 
-// JobSpec is the spec for a Job resource
-type JobSpec struct {
+// InferenceJobSpec is the spec for a InferenceJob resource
+type InferenceJobSpec struct {
 	DeploymentName string `json:"deploymentName"`
 	Replicas       *int32 `json:"replicas"`
 	ImageToDeploy  string `json:"imageToDeploy"`
 }
 
-// JobStatus is the status for a Job resource
-type JobStatus struct {
+// InferenceJobStatus is the status for a InferenceJob resource
+type InferenceJobStatus struct {
 	AvailableReplicas int32 `json:"availableReplicas"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// JobList is a list of Job resources
-type JobList struct {
+// InferenceJobList is a list of InferenceJob resources
+type InferenceJobList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata"`
 
-	Items []Job `json:"items"`
+	Items []InferenceJob `json:"items"`
 }
